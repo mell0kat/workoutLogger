@@ -1,12 +1,29 @@
 [
-    {
-        "id": 1388534400000,
-        "author": "Pete Hunt",
-        "text": "Hey there!"
-    },
-    {
-        "id": 1420070400000,
-        "author": "Paul O’Shannessy",
-        "text": "React is *great*!"
+    {"id":1, "author": "Kat", "text":"Runners high for dayz", "date": "Apr 23",
+        "boxes": [{
+            "instructions": "AMRAP",
+            "performance": "5+11",
+            "sections": [{
+                "id": 1,
+                "num": 5,
+                "units": "reps",
+                "exercise": "hand-stand push-ups",
+                "modification": "box"
+            },
+            {
+                "id": 2,
+                "num": 10,
+                "units": "reps",
+                "exercise": "front rack squats",
+                "weight": "65 lbs"
+            },
+            {
+                "id": 3,
+                "num": 5,
+                "units": "reps",
+                "exercise": "pull-ups",
+                "modification": "banded"
+            }]
+        }]
     }
 ]

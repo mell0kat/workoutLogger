@@ -1,9 +1,38 @@
+'use strict'
+let Workout = React.createClass({
+	//has this.props.boxes
+	render: function(){
+		console.log('this.props in Workout', this.props)
+		let boxes = this.props.boxes.map(function(box) {
+			console.log("this is a box:", box)
+    		return ( 
+				<WorkoutBox sections={box.sections} instructions={box.instructions} performance={box.performance}/>
+				)
+			})
+		return (
+			<div className="workout">
+				<h2 className="workoutAuthor">
+					Author: {this.props.author}
+				</h2>
+				<h2 className="workoutDate">
+					Date: {this.props.date}
+				</h2>
+				{boxes}
+			</div>
+		);
+	}
+
+})
+
 
 let WorkoutList = React.createClass({
+	//has this.props.data
+	
 	render: function(){
+		console.log('this.props.data in WorkoutList', this.props.data)
 		let workoutNodes = this.props.data.map(function(workout){
 			return (
-				<Workout author={workout.author} key={workout.id}>
+				<Workout author={workout.author} date={workout.date} key={workout.id} boxes={workout.boxes}>
 				 {workout.text}
 				</Workout>
 			);
@@ -20,50 +49,73 @@ let WorkoutForm = React.createClass({
 	render: function() {
 		return (
 			<div className="workoutForm">
-			Hello! I am workoutForm.
+				Num:<input></input>
+				Units:<input></input>
+				Exercise:<input></input>
+				Weight:<input></input>
 			</div>
 		);
 	}
 });
 
-let WorkoutBox = React.createClass({
+let WorkoutListAndForm = React.createClass({
+	//has this.props.data
+	getInitialState: function() {
+		return {data: []};
+	},
+	componentDidMount: function(){
+		$.ajax({
+			url: this.props.url,
+			dataType: 'json',
+			cache: false,
+			success: function(data){
+				this.setState({data:data})
+			}.bind(this),
+			error: function(xhr, status, err) {
+				console.error(this.props.url, status, err.toString())
+			}.bind(this)
+		})
+	},
 	render: function() {
+		console.log('this.props.data in WorkoutListAndForm', this.props.data)
 		return (
 			//Same as React.createElement('div')
-			<div className="workoutBox">
+			<div className="workoutListAndForm">
 				<h1>Workouts</h1>
-				<WorkoutList data={this.props.data} />
+				<WorkoutList data={this.state.data} />
 				<WorkoutForm/>
 			</div>
 
 		);
 	}
 })
-
-let Workout = React.createClass({
-	rawMarkup: function() {
-		let rawMarkup = marked(this.props.children.toString(), {sanitize:true});
-		return {__html: rawMarkup};
-	},
+//sections={box.sections} instructions={box.instructions} performance={box.performance}
+let WorkoutBox = React.createClass({
+	
 	render: function() {
+		console.log('this.props in WorkoutBox', this.props)
+		let workoutSections =  this.props.sections.map(function(section){
 			return (
-				<div className="workout">
-					<h2 className="workoutCreator">
-						{this.props.author}
-					</h2>
-					<span dangerouslySetInnerHTML={this.rawMarkup()}/>
+				<div>
+					<span>{section.num} </span>
+					<span>{section.units} </span>
+					<span>{section.exercise}</span>
 				</div>
-			);
-		}
-	})
+			)
+		})
+		return (
+			<div className="workoutBox">
+				<h2>{this.props.instructions}</h2>
+				<h2>{this.props.performance}</h2>
+				{workoutSections}
+			</div>
+		)
+	}
+})
 
-let data = [
-	{id:1, author: 'Kat', text:'Runners high for dayz'},
-	{id:2, author: 'Nucc', text:'Channel your inner Shaun T'}
-];
 
 ReactDOM.render(
-	<WorkoutBox data={data}/>,
+	<WorkoutListAndForm  url="/api/comments"/>,
 	document.getElementById('content')
 );
 
