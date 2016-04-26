@@ -3,24 +3,25 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let Promise = require('bluebird');
 
-let workoutSchema = new Schema({
-	author: String,
-	text: String,
-	date: {
-    type:Date,
-    default: Date.now()
-  },
-	boxes: {
-    type: [boxSchema],
+let sectionSchema = new Schema({
+  num: {
+    type: Number,
     required: true
-  }, 
-  height: String,
-  width: String,
-  left: String,
-  top: String,
-  userItem: Boolean
+  },
+  units: {
+    type: String,
+    enum: ['reps', 'seconds', 'mins']
+  },
+  exercise: [{
+    type: Schema.ObjectId,
+    ref: 'Exercise'
+  }],
+  modification: String,
+  weight: Number,
+  percent1RM: Number
 });
 
+mongoose.model('Section', sectionSchema)
 
 let boxSchema = new Schema({
   instructions: String,
@@ -31,36 +32,31 @@ let boxSchema = new Schema({
     units: {
       type: String,
       enum: ['reps', 'seconds', 'mins']
-    }
+    },
+    weights:[Number]
   },
-  sections: {
-    type: [sectionSchema],
-    required: true
-  }
+  sections: [sectionSchema]
 })
 
-let sectionSchema = new Schema({
-  num: {
-    type: Number,
-    required: true
+mongoose.model('Box', boxSchema)
+
+let workoutSchema = new Schema({
+	author: String,
+	text: String,
+	date: {
+    type:Date,
+    default: Date.now()
   },
-  units: {
-    type: String,
-    enum: ['reps', 'seconds', 'mins']
-  },
-  exercise: {
-    type: Schema.Types.ObjectId,
-    ref: 'Exercise'
-  },
-  modification: String
+	boxes: [boxSchema], 
+  height: String,
+  width: String,
+  left: String,
+  top: String,
+  userItem: Boolean
 });
 
-let exerciseSchema = new Schema({
-  name: String,
-  required: true
-});
 
 mongoose.model('Workout', workoutSchema)
-mongoose.model('Box', boxSchema)
-mongoose.model('Section', sectionSchema)
-mongoose.model('Exercise', exerciseSchema)
+
+
+
