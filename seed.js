@@ -9,36 +9,41 @@ let Box = Promise.promisifyAll(mongoose.model('Box'));
 let Workout = Promise.promisifyAll(mongoose.model('Workout'));
 
 
-let seedExercises = function() {
-    let exercises = [
-        {
-            name: 'hand-stand push-ups'
-        },
-        {
-            name: 'pull-ups'
-        },
-        {
-            name: 'front-rack squats'
-        },
-        {
-            name: 'back-squats'
-        },
-        {
-            name: 'hand-stand push-ups'
-        },
-         {
-            name: 'muscle-ups'
-        },
-        {
-            name: 'ring dips'
-        },
-        {
-            name: 'box jumps'
-        },
-    ]
-    return Promise.map(exercises, exercise => Exercise.create(exercise))
-};
-console.log(seedExercises)
+
+let exercises = [
+    {
+        name: 'hand-stand push-ups'
+    },
+    {
+        name: 'pull-ups'
+    },
+    {
+        name: 'front-rack squats'
+    },
+    {
+        name: 'back-squats'
+    },
+    {
+        name: 'hand-stand push-ups'
+    },
+     {
+        name: 'muscle-ups'
+    },
+    {
+        name: 'ring dips'
+    },
+    {
+        name: 'box jumps'
+    }
+]
+let createdWorkouts;
+
+Promise.map(exercises, exercise => Exercise.create(exercise))
+.then((results) => {
+    createdWorkouts = results;
+})
+
+
 let seedWorkout = function () {
 
     let workouts = [
@@ -55,19 +60,19 @@ let seedWorkout = function () {
                 sections: [{
                     num: 5,
                     units: 'reps',
-                    exercise: seedExercises[4]._id,
+                    exercise: createdWorkouts[4]._id,
                     modification: 'box'
                 },
                 {
                     num: 10,
                     units: 'reps',
-                    exercise: seedExercises[2]._id,
+                    exercise: createdWorkouts[2]._id,
                     weight: 65
                 },
                 {
                     num: 5,
                     units: 'reps',
-                    exercise: seedExercises[1]._id,
+                    exercise: createdWorkouts[1]._id,
                     modification: 'banded'
                 }]
             }]
@@ -84,7 +89,7 @@ let seedWorkout = function () {
                 sections: [{
                     num: 3,
                     units: 'reps',
-                    exercise: seedExercises[3]._id,
+                    exercise: createdWorkouts[3]._id,
                     percent1RM: 88
                 }]
             },
@@ -97,57 +102,57 @@ let seedWorkout = function () {
                 sections: [{
                     num: 10,
                     units: 'reps',
-                    exercise: seedExercises[5]._id,
+                    exercise: createdWorkouts[5]._id,
                     modification: 'ring dips & push-ups'
                 },
                 {
                     num: 10,
                     units: 'reps',
-                    exercise: seedExercises[7]._id,
+                    exercise: createdWorkouts[7]._id,
                 },
                 {
                     num: 8,
                     units: 'reps',
-                    exercise: seedExercises[5]._id,
+                    exercise: createdWorkouts[5]._id,
                     modification: 'ring dips & push-ups'
                 },
                 {
                     num: 8,
                     units: 'reps',
-                    exercise: seedExercises[7]._id,
+                    exercise: createdWorkouts[7]._id,
                 },
                 {
                     num: 6,
                     units: 'reps',
-                    exercise: seedExercises[5]._id,
+                    exercise: createdWorkouts[5]._id,
                     modification: 'ring dips & push-ups'
                 },
                 {
                     num: 6,
                     units: 'reps',
-                    exercise: seedExercises[7]._id,
+                    exercise: createdWorkouts[7]._id,
                 },
                 {
                     num: 4,
                     units: 'reps',
-                    exercise: seedExercises[5]._id,
+                    exercise: createdWorkouts[5]._id,
                     modification: 'ring dips & push-ups'
                 },
                 {
                     num: 4,
                     units: 'reps',
-                    exercise: seedExercises[7]._id,
+                    exercise: createdWorkouts[7]._id,
                 },
                 {
                     num: 2,
                     units: 'reps',
-                    exercise: seedExercises[5]._id,
+                    exercise: createdWorkouts[5]._id,
                     modification: 'ring dips & push-ups'
                 },
                 {
                     num: 2,
                     units: 'reps',
-                    exercise: seedExercises[7]._id,
+                    exercise: createdWorkouts[7]._id,
                 }]
             },
             ]
@@ -157,12 +162,15 @@ let seedWorkout = function () {
 }; 
 
 connectToDb.then(function () {
-    Workout.findAsync({}).then(function (workouts) {
+    Workout.findAsync({})
+    .then(function (workouts) {
         if (workouts.length === 0) {
             return seedWorkout();
         } else {
-            console.log(chalk.magenta('Workouts have been seeded!'));
+            console.log(chalk.magenta('Workouts have already been seeded!'));
             process.kill(0);
         }
     })
+    .then(() => {console.log(chalk.magenta('Workouts successfully seeded!'))})
+    .catch((err) => {console.error(err)})
 });
