@@ -64,11 +64,13 @@ let WorkoutListAndForm = React.createClass({
 		return {data: []};
 	},
 	componentDidMount: function(){
+		console.log('about to mount')
 		$.ajax({
 			url: this.props.url,
 			dataType: 'json',
 			cache: false,
 			success: function(data){
+				console.log('in success?', data)
 				this.setState({data:data})
 			}.bind(this),
 			error: function(xhr, status, err) {
@@ -77,7 +79,7 @@ let WorkoutListAndForm = React.createClass({
 		})
 	},
 	render: function() {
-		console.log('this.props.data in WorkoutListAndForm', this.props.data)
+		console.log('this.props.data in WorkoutListAndForm', this.props)
 		return (
 			//Same as React.createElement('div')
 			<div className="workoutListAndForm">
@@ -115,7 +117,7 @@ let WorkoutBox = React.createClass({
 
 
 ReactDOM.render(
-	<WorkoutListAndForm  url="/api/comments"/>,
+	<WorkoutListAndForm  url="/api/workouts"/>,
 	document.getElementById('content')
 );
 
