@@ -1,0 +1,62 @@
+'use strict';
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let Promise = require('bluebird');
+
+let sectionSchema = new Schema({
+  num: {
+    type: Number,
+    required: true
+  },
+  units: {
+    type: String,
+    enum: ['reps', 'seconds', 'mins']
+  },
+  exercise: [{
+    type: Schema.ObjectId,
+    ref: 'Exercise'
+  }],
+  modification: String,
+  weight: Number,
+  percent1RM: Number
+});
+
+mongoose.model('Section', sectionSchema)
+
+let boxSchema = new Schema({
+  instructions: String,
+  performance: {
+    rounds: Number,
+    extraReps: Number,
+    time: Number, 
+    units: {
+      type: String,
+      enum: ['reps', 'seconds', 'mins']
+    },
+    weights:[Number]
+  },
+  sections: [sectionSchema]
+})
+
+mongoose.model('Box', boxSchema)
+
+let workoutSchema = new Schema({
+	author: String,
+	text: String,
+	date: {
+    type:Date,
+    default: Date.now()
+  },
+	boxes: [boxSchema], 
+  height: String,
+  width: String,
+  left: String,
+  top: String,
+  userItem: Boolean
+});
+
+
+mongoose.model('Workout', workoutSchema)
+
+
+
