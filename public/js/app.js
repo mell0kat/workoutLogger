@@ -92,6 +92,7 @@ let WorkoutListAndForm = React.createClass({
 		);
 	}
 })
+
 //sections={box.sections} instructions={box.instructions} performance={box.performance}
 let WorkoutBox = React.createClass({
 	
@@ -106,11 +107,23 @@ let WorkoutBox = React.createClass({
 				</div>
 			)
 		})
+
+		let performances = this.props.performance.map(function(performance){
+			return (
+				<div>
+					<span>{performance.rounds}</span>
+					<span>{performance.extraReps}</span>
+					<span>{performance.time}</span>
+					<span>{performance.units}</span>
+					<span>{performance.weights}</span>
+				</div>
+			)
+		})
 		return (
 			<div className="workoutBox">
 				<h2>{this.props.instructions}</h2>
-				<h2>{this.props.performance}</h2>
-				{workoutSections}
+				 {workoutSections}
+				 {performances}
 			</div>
 		)
 	}

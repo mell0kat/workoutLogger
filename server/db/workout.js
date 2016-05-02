@@ -3,6 +3,16 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let Promise = require('bluebird');
 
+let performanceSchema = new Schema({
+    rounds: Number,
+    extraReps: Number,
+    time: Number, 
+    units: {
+      type: String,
+      enum: ['reps', 'seconds', 'mins']
+    },
+    weights:[Number]
+})
 let sectionSchema = new Schema({
   num: {
     type: Number,
@@ -25,16 +35,7 @@ mongoose.model('Section', sectionSchema)
 
 let boxSchema = new Schema({
   instructions: String,
-  performance: {
-    rounds: Number,
-    extraReps: Number,
-    time: Number, 
-    units: {
-      type: String,
-      enum: ['reps', 'seconds', 'mins']
-    },
-    weights:[Number]
-  },
+  performance: [performanceSchema],
   sections: [sectionSchema]
 })
 
