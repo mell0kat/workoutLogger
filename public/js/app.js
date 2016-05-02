@@ -1,4 +1,5 @@
-'use strict'
+console.log('in app js')
+'use strict';
 let Workout = React.createClass({
 	//has this.props.boxes
 	render: function(){
