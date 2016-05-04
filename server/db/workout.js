@@ -22,10 +22,10 @@ let sectionSchema = new Schema({
     type: String,
     enum: ['reps', 'seconds', 'mins']
   },
-  exercise: [{
+  exercise: {
     type: Schema.ObjectId,
     ref: 'Exercise'
-  }],
+  },
   modification: String,
   weight: Number,
   percent1RM: Number
@@ -48,12 +48,7 @@ let workoutSchema = new Schema({
     type:Date,
     default: Date.now()
   },
-	boxes: [boxSchema], 
-  height: String,
-  width: String,
-  left: String,
-  top: String,
-  userItem: Boolean
+	boxes: [boxSchema]
 });
 
 

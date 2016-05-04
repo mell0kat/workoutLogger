@@ -7,6 +7,8 @@ console.log('in server/routes/index')
 router.get('/workouts', function(req, res, next) {
 	console.log('in the cuorrect route')
 	Workout.find({})
+	.populate('boxes.performance')
+	.populate('boxes.sections')
 	.then(workouts => {
 		console.log('found wordouts?', workouts)
 		res.json(workouts)

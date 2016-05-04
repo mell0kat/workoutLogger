@@ -47,24 +47,58 @@ let WorkoutList = React.createClass({
 })
 
 let WorkoutForm = React.createClass({
+
+// getInitialState: function() {
+//         return { showResults: false };
+//     },
+//     onClick: function() {
+//         this.setState({ showResults: true });
+//     },
+//     render: function() {
+//         return (
+//             <div>
+//                 <input type="submit" value="Search" onClick={this.onClick} />
+//                 { this.state.showResults ? <Results /> : null }
+//             </div>
+//         );
+//     }
+
+
+
+	getInitialState: function() {
+		return { showAddWorkoutForm: false };
+	},
+	onClick: function(){
+		this.setState({ showAddWorkoutForm: true})
+	},
 	render: function() {
 		return (
-			<div className="workoutForm">
-				Num:<input></input>
-				Units:<input></input>
-				Exercise:<input></input>
-				Weight:<input></input>
-			</div>
+			<div>
+				<button onClick={this.onClick}></button>
+				{ this.state.showAddWorkoutForm ? 
+				<form className="workoutForm">
+					Author:<input type="text" placeholder="author"/>
+					Motto:<input type="text" placeholder="text"/>
+					Date:<input type="date" placeholder="date"/>
+					<p>Box</p> 
+					Num:<input type="text" placeholder=""/>
+					Units:<input type="text" placeholder=""/>
+					Exercise:<input type="text" placeholder=""/>
+					Weight:<input type="number" placeholder=""/>
+					<input type="submit" value="Post"/>
+
+				</form>
+			: null
+		}
+
+				</div>
 		);
 	}
 });
 
 let WorkoutListAndForm = React.createClass({
 	//has this.props.data
-	getInitialState: function() {
-		return {data: []};
-	},
-	componentDidMount: function(){
+	loadWorkoutsFromServer: function(){
 		console.log('about to mount')
 		$.ajax({
 			url: this.props.url,
@@ -78,6 +112,13 @@ let WorkoutListAndForm = React.createClass({
 				console.error(this.props.url, status, err.toString())
 			}.bind(this)
 		})
+	},
+	getInitialState: function() {
+		return {data: []};
+	},
+	componentDidMount: function(){
+		this.loadWorkoutsFromServer();
+		// setInterval(this.loadWorkoutsFromServer, this.props.pollInterval)
 	},
 	render: function() {
 		console.log('this.props.data in WorkoutListAndForm', this.props)
@@ -104,6 +145,7 @@ let WorkoutBox = React.createClass({
 					<span>{section.num} </span>
 					<span>{section.units} </span>
 					<span>{section.exercise}</span>
+					<span>{section.modification}</span>
 				</div>
 			)
 		})
