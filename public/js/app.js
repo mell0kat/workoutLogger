@@ -8,7 +8,7 @@ let Workout = React.createClass({
 			console.log("this is a box:", box)
     		return ( 
 				<WorkoutBox sections={box.sections} instructions={box.instructions} performance={box.performance}/>
-				)
+				);
 			})
 		return (
 			<div className="workout">
@@ -46,25 +46,89 @@ let WorkoutList = React.createClass({
 	}
 })
 
+let ExerciseForm = React.createClass({
+	getInitialState: function() {
+		return {exerciseName: ''};
+	},
+	handleChange: function(e) {
+
+		this.setState({exerciseName: e.target.value});
+
+	},
+	handleSubmit: function(e) {
+		e.preventDefault(); // Is this what prevents page refresh?
+		let exerciseName = this.state.exerciseName.trim();
+		if (!exerciseName) { return };
+		this.props.onExerciseSubmit({name: exerciseName});
+		this.setState({exerciseName: ''});
+	},
+	// These <input> elements with a value set are called controlled components
+	render: function(){
+		return (
+			<form className="exerciseForm" onSubmit={this.handleSubmit}>
+				<label>Name of exercise:</label>
+				<input type="text" 
+					value={this.state.exerciseName} 
+					onChange={this.handleChange}>
+				</input>
+				<input type="submit" value="Post"/>
+			</form>)
+	}
+});
+
 let WorkoutForm = React.createClass({
+
+// getInitialState: function() {
+//         return { showResults: false };
+//     },
+//     onClick: function() {
+//         this.setState({ showResults: true });
+//     },
+//     render: function() {
+//         return (
+//             <div>
+//                 <input type="submit" value="Search" onClick={this.onClick} />
+//                 { this.state.showResults ? <Results /> : null }
+//             </div>
+//         );
+//     }
+
+
+
+	getInitialState: function() {
+		return { showAddWorkoutForm: false };
+	},
+	onClick: function(){
+		this.setState({ showAddWorkoutForm: true})
+	},
 	render: function() {
 		return (
-			<div className="workoutForm">
-				Num:<input></input>
-				Units:<input></input>
-				Exercise:<input></input>
-				Weight:<input></input>
-			</div>
+			<div>
+				<button onClick={this.onClick}></button>
+				{ this.state.showAddWorkoutForm ? 
+				<form className="workoutForm">
+					Author:<input type="text" placeholder="author"/>
+					Motto:<input type="text" placeholder="text"/>
+					Date:<input type="date" placeholder="date"/>
+					
+					// <p>Box</p> 
+					// Num:<input type="text" placeholder=""/>
+					// Units:<input type="text" placeholder=""/>
+					// Exercise:<input type="text" placeholder=""/>
+					// Weight:<input type="number" placeholder=""/>
+					// <input type="submit" value="Post"/>
+				</form>
+			: null
+		}
+
+				</div>
 		);
 	}
 });
 
 let WorkoutListAndForm = React.createClass({
 	//has this.props.data
-	getInitialState: function() {
-		return {data: []};
-	},
-	componentDidMount: function(){
+	loadWorkoutsFromServer: function(){
 		console.log('about to mount')
 		$.ajax({
 			url: this.props.url,
@@ -75,6 +139,30 @@ let WorkoutListAndForm = React.createClass({
 				this.setState({data:data})
 			}.bind(this),
 			error: function(xhr, status, err) {
+				console.log('could not find workouts!')
+				console.error(this.props.url, status, err.toString())
+			}.bind(this)
+		})
+	},
+	getInitialState: function() {
+		return {data: []};
+	},
+	componentDidMount: function(){
+		this.loadWorkoutsFromServer();
+	},
+	handleExerciseSubmit: function(exercise) {
+		console.log('submitting new exercise..not sure what else to do yet')
+		$.ajax({
+			url: 'api/exercises',
+			method: 'POST',
+			data: exercise,
+			dataType: 'json',
+			success: function(data){
+				console.log('in successful exercise post?', data)
+				this.setState({ data: data})
+			}.bind(this),
+			error: function(xhr, status, err) {
+				console.log('cannot submit new exercise')
 				console.error(this.props.url, status, err.toString())
 			}.bind(this)
 		})
@@ -87,6 +175,7 @@ let WorkoutListAndForm = React.createClass({
 				<h1>Workouts</h1>
 				<WorkoutList data={this.state.data} />
 				<WorkoutForm/>
+				<ExerciseForm onExerciseSubmit={this.handleExerciseSubmit}/>
 			</div>
 
 		);
@@ -104,6 +193,7 @@ let WorkoutBox = React.createClass({
 					<span>{section.num} </span>
 					<span>{section.units} </span>
 					<span>{section.exercise}</span>
+					<span>{section.modification}</span>
 				</div>
 			)
 		})
@@ -131,7 +221,7 @@ let WorkoutBox = React.createClass({
 
 
 ReactDOM.render(
-	<WorkoutListAndForm  url="/api/workouts"/>,
+	<WorkoutListAndForm  url="api/workouts"/>,
 	document.getElementById('content')
 );
 
