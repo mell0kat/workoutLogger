@@ -8,7 +8,7 @@ let Workout = React.createClass({
 			console.log("this is a box:", box)
     		return ( 
 				<WorkoutBox sections={box.sections} instructions={box.instructions} performance={box.performance}/>
-				)
+				);
 			})
 		return (
 			<div className="workout">
@@ -47,31 +47,35 @@ let WorkoutList = React.createClass({
 })
 
 let ExerciseForm = React.createClass({
-	onClick: function(event){
-		debugger;
-		console.log('this is the event:', event)
-		$.ajax({
-			url: 'api/exercises',
-			method: 'POST',
-			data: {name: event.target.value},
-			dataType: 'json',
-			success: function(data){
-				console.log('in successful exercise post?', data)
-				this.setState({ exercises: data})
-			}.bind(this),
-			error: function(xhr, status, err) {
-				console.error(this.props.url, status, err.toString())
-			}.bind(this)
-		})
+	getInitialState: function() {
+		return {exerciseName: ''};
 	},
+	handleChange: function(e) {
+
+		this.setState({exerciseName: e.target.value});
+
+	},
+	handleSubmit: function(e) {
+		e.preventDefault(); // Is this what prevents page refresh?
+		let exerciseName = this.state.exerciseName.trim();
+		if (!exerciseName) { return };
+		this.props.onExerciseSubmit({name: exerciseName});
+		this.setState({exerciseName: ''});
+	},
+	// These <input> elements with a value set are called controlled components
 	render: function(){
 		return (
-			<form>
-				<label>Name of exercise:</label><input type="text"></input>
-				<input type="submit" value="exerciseName" onClick={this.onClick} />
+			<form className="exerciseForm" onSubmit={this.handleSubmit}>
+				<label>Name of exercise:</label>
+				<input type="text" 
+					value={this.state.exerciseName} 
+					onChange={this.handleChange}>
+				</input>
+				<input type="submit" value="Post"/>
 			</form>)
 	}
-})
+});
+
 let WorkoutForm = React.createClass({
 
 // getInitialState: function() {
@@ -145,7 +149,23 @@ let WorkoutListAndForm = React.createClass({
 	},
 	componentDidMount: function(){
 		this.loadWorkoutsFromServer();
-		// setInterval(this.loadWorkoutsFromServer, this.props.pollInterval)
+	},
+	handleExerciseSubmit: function(exercise) {
+		console.log('submitting new exercise..not sure what else to do yet')
+		$.ajax({
+			url: 'api/exercises',
+			method: 'POST',
+			data: exercise,
+			dataType: 'json',
+			success: function(data){
+				console.log('in successful exercise post?', data)
+				this.setState({ data: data})
+			}.bind(this),
+			error: function(xhr, status, err) {
+				console.log('cannot submit new exercise')
+				console.error(this.props.url, status, err.toString())
+			}.bind(this)
+		})
 	},
 	render: function() {
 		console.log('this.props.data in WorkoutListAndForm', this.props)
@@ -155,7 +175,7 @@ let WorkoutListAndForm = React.createClass({
 				<h1>Workouts</h1>
 				<WorkoutList data={this.state.data} />
 				<WorkoutForm/>
-				<ExerciseForm/>
+				<ExerciseForm onExerciseSubmit={this.handleExerciseSubmit}/>
 			</div>
 
 		);

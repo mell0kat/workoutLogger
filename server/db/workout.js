@@ -41,7 +41,7 @@ let boxSchema = new Schema({
 
 mongoose.model('Box', boxSchema)
 
-let git brancSchema = new Schema({
+let workoutSchema = new Schema({
 	author: String,
 	text: String,
 	date: {
