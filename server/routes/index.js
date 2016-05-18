@@ -1,7 +1,11 @@
+'use strict';
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Workout = mongoose.model('Workout');
+const Exercise = mongoose.model('Exercise');
+
 console.log('Workout model:', Workout)
 console.log('in server/routes/index')
 router.get('/workouts', function(req, res, next) {
@@ -13,10 +17,16 @@ router.get('/workouts', function(req, res, next) {
 		console.log('found wordouts?', workouts)
 		res.json(workouts)
 	})
-})
+});
 
 router.post('/workouts', function(req, res, next) {
 
-})
+});
+
+router.post('/exercises', function(req, res, next) {
+	console.log('in the post exercise route', req.body)
+	Exercise.create(req.body)
+	.then(exercise => res.send(exercise))
+});
 
 module.exports = router;

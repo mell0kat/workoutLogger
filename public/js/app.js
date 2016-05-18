@@ -46,6 +46,32 @@ let WorkoutList = React.createClass({
 	}
 })
 
+let ExerciseForm = React.createClass({
+	onClick: function(event){
+		debugger;
+		console.log('this is the event:', event)
+		$.ajax({
+			url: 'api/exercises',
+			method: 'POST',
+			data: {name: event.target.value},
+			dataType: 'json',
+			success: function(data){
+				console.log('in successful exercise post?', data)
+				this.setState({ exercises: data})
+			}.bind(this),
+			error: function(xhr, status, err) {
+				console.error(this.props.url, status, err.toString())
+			}.bind(this)
+		})
+	},
+	render: function(){
+		return (
+			<form>
+				<label>Name of exercise:</label><input type="text"></input>
+				<input type="submit" value="exerciseName" onClick={this.onClick} />
+			</form>)
+	}
+})
 let WorkoutForm = React.createClass({
 
 // getInitialState: function() {
@@ -80,13 +106,13 @@ let WorkoutForm = React.createClass({
 					Author:<input type="text" placeholder="author"/>
 					Motto:<input type="text" placeholder="text"/>
 					Date:<input type="date" placeholder="date"/>
-					<p>Box</p> 
-					Num:<input type="text" placeholder=""/>
-					Units:<input type="text" placeholder=""/>
-					Exercise:<input type="text" placeholder=""/>
-					Weight:<input type="number" placeholder=""/>
-					<input type="submit" value="Post"/>
-
+					
+					// <p>Box</p> 
+					// Num:<input type="text" placeholder=""/>
+					// Units:<input type="text" placeholder=""/>
+					// Exercise:<input type="text" placeholder=""/>
+					// Weight:<input type="number" placeholder=""/>
+					// <input type="submit" value="Post"/>
 				</form>
 			: null
 		}
@@ -109,6 +135,7 @@ let WorkoutListAndForm = React.createClass({
 				this.setState({data:data})
 			}.bind(this),
 			error: function(xhr, status, err) {
+				console.log('could not find workouts!')
 				console.error(this.props.url, status, err.toString())
 			}.bind(this)
 		})
@@ -128,6 +155,7 @@ let WorkoutListAndForm = React.createClass({
 				<h1>Workouts</h1>
 				<WorkoutList data={this.state.data} />
 				<WorkoutForm/>
+				<ExerciseForm/>
 			</div>
 
 		);
@@ -173,7 +201,7 @@ let WorkoutBox = React.createClass({
 
 
 ReactDOM.render(
-	<WorkoutListAndForm  url="/api/workouts"/>,
+	<WorkoutListAndForm  url="api/workouts"/>,
 	document.getElementById('content')
 );
 
