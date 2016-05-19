@@ -23,10 +23,17 @@ router.post('/workouts', function(req, res, next) {
 
 });
 
+router.get('/exercises', function(req, res, next) {
+	console.log('getting exercises');
+	return Exercise.find({})
+	.then(exercises => res.send(exercises))
+	.then(null, next)
+});
 router.post('/exercises', function(req, res, next) {
 	console.log('in the post exercise route', req.body)
 	Exercise.create(req.body)
 	.then(exercise => res.send(exercise))
+	.catch(next)
 });
 
 module.exports = router;
