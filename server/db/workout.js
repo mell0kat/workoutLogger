@@ -1,4 +1,5 @@
 'use strict';
+
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let Promise = require('bluebird');
@@ -12,7 +13,8 @@ let performanceSchema = new Schema({
       enum: ['reps', 'seconds', 'mins']
     },
     weights:[Number]
-})
+});
+
 let sectionSchema = new Schema({
   num: {
     type: Number,

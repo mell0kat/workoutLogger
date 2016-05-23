@@ -1,5 +1,63 @@
 console.log('in app js')
 'use strict';
+
+let PerformanceForm = React.createClass({
+	getInitialState: function() {
+		return { units:['reps', 'seconds', 'minutes', 'rounds'] };
+	},
+	handleChange: function(e, factor) {
+		this.setState({factor: e.target.value});
+		console.log('this is the state LOOOK HERERERERERE:', this.state)
+	},
+	render: function() {
+		let options=this.state.units.map(unit => {
+			return (
+				<option value={unit}>{unit}</option>
+			);
+		});
+		return  (
+			<div>
+				<h3>Performance</h3>
+				<form className="performanceForm" onSubmit={this.handleSubmit}>
+				<label>Rounds:</label>
+				<input type="number" 
+					value={this.state.number} 
+					onChange={this.handleChange.bind(this, 'number')}/>
+				
+				<label>Extra Reps:</label>
+				<input type="number" 
+					value={this.state.reps} 
+					onChange={this.handleChange.bind(this, 'reps')}/>
+				
+				<label>Time:</label>
+				<input type="number" 
+					value={this.state.time} 
+					onChange={this.handleChange.bind(this, 'time')}/>
+				
+				<label>Rounds:</label>
+				<input type="units" 
+					value={this.state.rounds} 
+					onChange={this.handleChange.bind(this, 'units')}/>
+				
+				<input type="submit" value="Post"/>
+				<select>{options}</select>
+			</form>
+			</div>
+		);
+	}
+});
+
+// let performanceSchema = new Schema({
+//     rounds: Number,
+//     extraReps: Number,
+//     time: Number, 
+//     units: {
+//       type: String,
+//       enum: ['reps', 'seconds', 'mins']
+//     },
+//     weights:[Number]
+// });
+
 let Workout = React.createClass({
 	//has this.props.boxes
 	render: function(){
@@ -24,6 +82,7 @@ let Workout = React.createClass({
 	}
 
 })
+
 
 
 let WorkoutList = React.createClass({
@@ -130,7 +189,9 @@ let WorkoutForm = React.createClass({
 					// Exercise:<input type="text" placeholder=""/>
 					// Weight:<input type="number" placeholder=""/>
 					// <input type="submit" value="Post"/>
+					<PerformanceForm/>
 				</form>
+
 			: null
 		}
 
