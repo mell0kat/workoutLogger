@@ -7,6 +7,7 @@ let Promise = require('bluebird');
 let exerciseSchema = new Schema({
   name: {
   	type: String, 
+  	unique: true,
   	required: true
   }
 });
