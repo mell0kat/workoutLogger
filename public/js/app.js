@@ -20,25 +20,25 @@ let PerformanceForm = React.createClass({
 				<h3>Performance</h3>
 				<form className="performanceForm" onSubmit={this.handleSubmit}>
 				<label>Rounds:</label>
-				<input type="number" 
-					value={this.state.number} 
+				<input type="number"
+					value={this.state.number}
 					onChange={this.handleChange.bind(this, 'number')}/>
-				
+
 				<label>Extra Reps:</label>
-				<input type="number" 
-					value={this.state.reps} 
+				<input type="number"
+					value={this.state.reps}
 					onChange={this.handleChange.bind(this, 'reps')}/>
-				
+
 				<label>Time:</label>
-				<input type="number" 
-					value={this.state.time} 
+				<input type="number"
+					value={this.state.time}
 					onChange={this.handleChange.bind(this, 'time')}/>
-				
+
 				<label>Rounds:</label>
-				<input type="units" 
-					value={this.state.rounds} 
+				<input type="units"
+					value={this.state.rounds}
 					onChange={this.handleChange.bind(this, 'units')}/>
-				
+
 				<input type="submit" value="Post"/>
 				<select>{options}</select>
 			</form>
@@ -50,7 +50,7 @@ let PerformanceForm = React.createClass({
 // let performanceSchema = new Schema({
 //     rounds: Number,
 //     extraReps: Number,
-//     time: Number, 
+//     time: Number,
 //     units: {
 //       type: String,
 //       enum: ['reps', 'seconds', 'mins']
@@ -64,7 +64,7 @@ let Workout = React.createClass({
 		console.log('this.props in Workout', this.props)
 		let boxes = this.props.boxes.map(function(box) {
 			console.log("this is a box:", box)
-    		return ( 
+    		return (
 				<WorkoutBox sections={box.sections} instructions={box.instructions} performance={box.performance}/>
 				);
 			})
@@ -87,7 +87,7 @@ let Workout = React.createClass({
 
 let WorkoutList = React.createClass({
 	//has this.props.data
-	
+
 	render: function(){
 		console.log('this.props.data in WorkoutList', this.props.data)
 		let workoutNodes = this.props.data.map(function(workout){
@@ -126,8 +126,8 @@ let ExerciseForm = React.createClass({
 		return (
 			<form className="exerciseForm" onSubmit={this.handleSubmit}>
 				<label>Name of exercise:</label>
-				<input type="text" 
-					value={this.state.exerciseName} 
+				<input type="text"
+					value={this.state.exerciseName}
 					onChange={this.handleChange}>
 				</input>
 				<input type="submit" value="Post"/>
@@ -176,14 +176,14 @@ let WorkoutForm = React.createClass({
 		return (
 			<div>
 				<button onClick={this.onClick}></button>
-				{ this.state.showAddWorkoutForm ? 
+				{ this.state.showAddWorkoutForm ?
 				<form className="workoutForm">
 					Author:<input type="text" placeholder="author"/>
 					Motto:<input type="text" placeholder="text"/>
 					Date:<input type="date" placeholder="date"/>
 
 					<select>{options}</select>
-					// <p>Box</p> 
+					// <p>Box</p>
 					// Num:<input type="text" placeholder=""/>
 					// Units:<input type="text" placeholder=""/>
 					// Exercise:<input type="text" placeholder=""/>
@@ -249,7 +249,7 @@ let WorkoutListAndForm = React.createClass({
 				<h1>Workouts</h1>
 				<WorkoutList data={this.state.data} />
 				<WorkoutForm getExercisesUrl={this.props.getExercisesUrl}/>
-				<ExerciseForm onExerciseSubmit={this.handleExerciseSubmit}/>
+				<ExerciseForm className="exerciseForm" onExerciseSubmit={this.handleExerciseSubmit}/>
 			</div>
 
 		);
@@ -258,7 +258,7 @@ let WorkoutListAndForm = React.createClass({
 
 //sections={box.sections} instructions={box.instructions} performance={box.performance}
 let WorkoutBox = React.createClass({
-	
+
 	render: function() {
 		console.log('this.props in WorkoutBox', this.props)
 		let workoutSections =  this.props.sections.map(function(section){
