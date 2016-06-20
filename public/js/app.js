@@ -135,7 +135,8 @@ let ExerciseForm = React.createClass({
 	}
 });
 
-let WorkoutForm = React.createClass({
+
+let SectionForm = React.createClass({
 
 
 	loadExercisesFromServer: function() {
@@ -177,19 +178,19 @@ let WorkoutForm = React.createClass({
 			<div>
 				<button onClick={this.onClick}></button>
 				{ this.state.showAddWorkoutForm ?
-				<form className="workoutForm">
-					Author:<input type="text" placeholder="author"/>
-					Motto:<input type="text" placeholder="text"/>
-					Date:<input type="date" placeholder="date"/>
+				<form className="sectionForm">
+					Num:<input type="number" placeholder="Num"/>
+					Units:
+						<select>
+							<option value="reps">reps</option>
+							<option value="lbs">lbs</option>
+							<option value="seconds">seconds</option>
+							<option value="minutes">minutes</option>
+						</select>
 
-					<select>{options}</select>
-					// <p>Box</p>
-					// Num:<input type="text" placeholder=""/>
-					// Units:<input type="text" placeholder=""/>
-					// Exercise:<input type="text" placeholder=""/>
-					// Weight:<input type="number" placeholder=""/>
-					// <input type="submit" value="Post"/>
-					<PerformanceForm/>
+					Exercise:<select>{options}</select>
+					Modification: <input type="text"></input>
+
 				</form>
 
 			: null
@@ -233,7 +234,7 @@ let WorkoutListAndForm = React.createClass({
 			dataType: 'json',
 			success: function(data){
 				console.log('in successful exercise post?', data)
-				this.setState({ data: data})
+				this.setState({ exercises: data})
 			}.bind(this),
 			error: function(xhr, status, err) {
 				console.log('cannot submit new exercise')
@@ -248,7 +249,7 @@ let WorkoutListAndForm = React.createClass({
 			<div className="workoutListAndForm">
 				<h1>Workouts</h1>
 				<WorkoutList data={this.state.data} />
-				<WorkoutForm getExercisesUrl={this.props.getExercisesUrl}/>
+				<SectionForm className="sectionForm" getExercisesUrl={this.props.getExercisesUrl}/>
 				<ExerciseForm className="exerciseForm" onExerciseSubmit={this.handleExerciseSubmit}/>
 			</div>
 
