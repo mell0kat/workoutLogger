@@ -15,32 +15,33 @@ let PerformanceForm = React.createClass({
 				<option value={unit}>{unit}</option>
 			);
 		});
+		// Inputs that have a value and affect the state are called controlled components
+
 		return  (
 			<div>
-				<h3>Performance</h3>
+				<h3>Performance Form</h3>
 				<form className="performanceForm" onSubmit={this.handleSubmit}>
 				<label>Rounds:</label>
 				<input type="number"
 					value={this.state.number}
-					onChange={this.handleChange.bind(this, 'number')}/>
+					onChange={this.handleChange.bind(this, 'number')}></input>
 
 				<label>Extra Reps:</label>
 				<input type="number"
 					value={this.state.reps}
-					onChange={this.handleChange.bind(this, 'reps')}/>
+					onChange={this.handleChange.bind(this, 'reps')}></input>
 
 				<label>Time:</label>
 				<input type="number"
 					value={this.state.time}
-					onChange={this.handleChange.bind(this, 'time')}/>
+					onChange={this.handleChange.bind(this, 'time')}></input>
 
-				<label>Rounds:</label>
-				<input type="units"
-					value={this.state.rounds}
-					onChange={this.handleChange.bind(this, 'units')}/>
+				<label>Units:</label>
 
-				<input type="submit" value="Post"/>
-				<select>{options}</select>
+
+				<select value={this.state.units}
+					onChange={this.handleChange.bind(this, 'units')}>{options}</select>
+				<input type="submit" value="Post"></input>
 			</form>
 			</div>
 		);
@@ -128,9 +129,8 @@ let ExerciseForm = React.createClass({
 				<label>Name of exercise:</label>
 				<input type="text"
 					value={this.state.exerciseName}
-					onChange={this.handleChange}>
-				</input>
-				<input type="submit" value="Post"/>
+					onChange={this.handleChange}></input>
+				<input type="submit" value="Post"></input>
 			</form>)
 	}
 });
@@ -179,7 +179,7 @@ let SectionForm = React.createClass({
 				<button onClick={this.onClick}></button>
 				{ this.state.showAddWorkoutForm ?
 				<form className="sectionForm">
-					Num:<input type="number" placeholder="Num"/>
+					Num:<input type="number" placeholder="Num"></input>
 					Units:
 						<select>
 							<option value="reps">reps</option>
@@ -200,6 +200,59 @@ let SectionForm = React.createClass({
 		);
 	}
 });
+
+let WorkoutForm = React.createClass({
+	getInitialState: function() {
+		return {author: '', text:'', date:'',  boxes: []}
+	},
+	handleChange: function(e, factor) {
+		this.setState({factor: e.target.value});
+		console.log('State after updating workout', this.state)
+	},
+	handleSubmit: function(e) {
+		e.preventDefault();
+		let author = this.state.author.trim();
+		let text = this.state.text.trim();
+		let date = this.state.date.trim();
+		// TODO: send post request
+
+		//empty things out again
+		this.setState({author: '', text:'', date:'',  boxes: []})
+
+	},
+	render: function() {
+		return (
+			<div><h3>WorkoutForm!!</h3>
+	      <form className="workoutForm" onSubmit={this.handleSubmit}>
+	        <input
+	          type="text"
+	          placeholder="Coach name"
+	          value={this.state.author}
+	          onChange={this.handleChange.bind(this, 'author')}
+	        />
+	        <input
+	          type="text"
+	          placeholder="Workout motto...?"
+	          value={this.state.text}
+	          onChange={this.handleChange.bind(this, 'text')}
+	        />
+	         <input
+	          type="date"
+	          placeholder="Workout date"
+	          value={this.state.date}
+	          onChange={this.handleChange.bind(this, 'date')}
+	        />
+	        <input type="submit" value="Post" />
+	      </form>
+      </div>
+    );
+	}
+})
+
+
+
+
+
 
 let WorkoutListAndForm = React.createClass({
 	//has this.props.data
@@ -224,6 +277,8 @@ let WorkoutListAndForm = React.createClass({
 	},
 	componentDidMount: function(){
 		this.loadWorkoutsFromServer();
+		// See below for possible way to poll for changes
+		// setInterval(this.loadCommentsFromServer, this.props.pollInterval);
 	},
 	handleExerciseSubmit: function(exercise) {
 		console.log('submitting new exercise..not sure what else to do yet')
@@ -249,8 +304,11 @@ let WorkoutListAndForm = React.createClass({
 			<div className="workoutListAndForm">
 				<h1>Workouts</h1>
 				<WorkoutList data={this.state.data} />
-				<SectionForm className="sectionForm" getExercisesUrl={this.props.getExercisesUrl}/>
+				<WorkoutForm/>
+				<SectionForm className="sectionForm" getExercisesUrl={this.props.getExercisesUrl}/><button>Add another section</button>
 				<ExerciseForm className="exerciseForm" onExerciseSubmit={this.handleExerciseSubmit}/>
+
+				<PerformanceForm/>
 			</div>
 
 		);
@@ -302,3 +360,35 @@ ReactDOM.render(
 
 // Native HTML elements start with lowercase, while custom React class names begin with uppercase letter
  // ReactDOM should be called last
+
+//This is what a workout should look like
+// {
+//             author: 'Katherine',
+//             text: 'I can\'t feel my shoulders',
+//             date: new Date('April 23, 2016 09:00:00'),
+//             boxes: [{
+//                 instructions: 'AMRAP',
+//                 performance: {
+//                     rounds: 5,
+//                     extraReps: 11
+//                 },
+//                 sections: [{
+//                     num: 5,
+//                     units: 'reps',
+//                     exercise: createdWorkouts[4]._id,
+//                     modification: 'box'
+//                 },
+//                 {
+//                     num: 10,
+//                     units: 'reps',
+//                     exercise: createdWorkouts[2]._id,
+//                     weight: 65
+//                 },
+//                 {
+//                     num: 5,
+//                     units: 'reps',
+//                     exercise: createdWorkouts[1]._id,
+//                     modification: 'banded'
+//                 }]
+//             }]
+//         },
