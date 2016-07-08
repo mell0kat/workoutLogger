@@ -7,7 +7,7 @@ module.exports = app;
 console.log('in app')
 app.set('port', (process.env.PORT || 3000));
 
-app.use('/', express.static(path.join(__dirname, '../../public')));
+app.use('/', express.static(path.join(__dirname, '../../src/client')));
 app.use('/', express.static(path.join(__dirname, '../../node_modules')));
 
 app.use(bodyParser.json());
