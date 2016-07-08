@@ -57,6 +57,10 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 33);
 	
+	var _anotherComponent = __webpack_require__(/*! ./anotherComponent.jsx */ 170);
+	
+	var _anotherComponent2 = _interopRequireDefault(_anotherComponent);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65,27 +69,129 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var data = [{
+	    author: 'Katherine',
+	    text: 'I can\'t feel my shoulders',
+	    date: new Date('April 23, 2016 09:00:00'),
+	    boxes: [{
+	        instructions: 'AMRAP',
+	        performance: {
+	            rounds: 5,
+	            extraReps: 11
+	        },
+	        sections: [{
+	            num: 5,
+	            units: 'reps',
+	            exercise: 'pushups',
+	            modification: 'box'
+	        }, {
+	            num: 10,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            weight: 65
+	        }, {
+	            num: 5,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            modification: 'banded'
+	        }]
+	    }]
+	}, {
+	    author: 'Tyler',
+	    text: 'Slow n Steady',
+	    date: new Date('April 25, 2016 19:00:00'),
+	    boxes: [{
+	        instructions: 'E3:30OM',
+	        performance: {
+	            weights: [115, 120, 120, 120, 120]
+	        },
+	        sections: [{
+	            num: 3,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            percent1RM: 88
+	        }]
+	    }, {
+	        instructions: 'For Time',
+	        performance: {
+	            time: 11.5,
+	            units: 'mins'
+	        },
+	        sections: [{
+	            num: 10,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            modification: 'ring dips & push-ups'
+	        }, {
+	            num: 10,
+	            units: 'reps',
+	            exercise: 'another exercise'
+	        }, {
+	            num: 8,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            modification: 'ring dips & push-ups'
+	        }, {
+	            num: 8,
+	            units: 'reps',
+	            exercise: 'another exercise'
+	        }, {
+	            num: 6,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            modification: 'ring dips & push-ups'
+	        }, {
+	            num: 6,
+	            units: 'reps',
+	            exercise: 'another exercise'
+	        }, {
+	            num: 4,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            modification: 'ring dips & push-ups'
+	        }, {
+	            num: 4,
+	            units: 'reps',
+	            exercise: 'another exercise'
+	        }, {
+	            num: 2,
+	            units: 'reps',
+	            exercise: 'another exercise',
+	            modification: 'ring dips & push-ups'
+	        }, {
+	            num: 2,
+	            units: 'reps',
+	            exercise: 'another exercise'
+	        }]
+	    }]
+	}];
+	
 	var App = function (_React$Component) {
-		_inherits(App, _React$Component);
+	    _inherits(App, _React$Component);
 	
-		function App() {
-			_classCallCheck(this, App);
+	    function App() {
+	        _classCallCheck(this, App);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
-		}
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+	    }
 	
-		_createClass(App, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'p',
-					null,
-					'Hello React!'
-				);
-			}
-		}]);
+	    _createClass(App, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Hello There!'
+	                ),
+	                _react2.default.createElement(_anotherComponent2.default, { data: data })
+	            );
+	        }
+	    }]);
 	
-		return App;
+	    return App;
 	}(_react2.default.Component);
 	
 	(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('content'));
@@ -21511,6 +21617,69 @@
 	var ReactMount = __webpack_require__(/*! ./ReactMount */ 162);
 	
 	module.exports = ReactMount.renderSubtreeIntoContainer;
+
+/***/ },
+/* 170 */
+/*!*********************************************!*\
+  !*** ./src/client/app/anotherComponent.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var WorkoutList = function (_React$Component) {
+		_inherits(WorkoutList, _React$Component);
+	
+		function WorkoutList() {
+			_classCallCheck(this, WorkoutList);
+	
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(WorkoutList).apply(this, arguments));
+		}
+	
+		_createClass(WorkoutList, [{
+			key: 'render',
+	
+			//has this.props.data
+	
+			value: function render() {
+				console.log('this.props in WorkoutList', this.props);
+				var workoutNodes = this.props.data.map(function (workout) {
+					return _react2.default.createElement(
+						Workout,
+						{ author: workout.author, date: workout.date, key: workout.id, boxes: workout.boxes },
+						workout.text
+					);
+				});
+				return _react2.default.createElement(
+					'div',
+					{ className: 'workoutList' },
+					workoutNodes
+				);
+			}
+		}]);
+	
+		return WorkoutList;
+	}(_react2.default.Component);
+	
+	exports.default = WorkoutList;
 
 /***/ }
 /******/ ]);
