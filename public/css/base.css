@@ -64,3 +64,11 @@ p, ul {
 ul {
   padding-left: 30px;
 }
+
+.exerciseForm {
+  background: #33cc33;
+}
+
+.sectionForm {
+  background: #3380CC;
+}

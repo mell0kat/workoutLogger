@@ -12,7 +12,6 @@ let startDb = require('./server/db');
 
 let createApp = function() {
   let app = require('./server/app');
-  console.log('app:', app)
   app.on('request', app);
 }
 
