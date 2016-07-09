@@ -30,10 +30,11 @@ router.get('/exercises', function(req, res, next) {
 	.then(null, next)
 });
 router.post('/exercises', function(req, res, next) {
+	console.log("Exercise:", Exercise)
 	console.log('in the post exercise route', req.body)
 	Exercise.create(req.body)
 	.then(exercise => res.send(exercise))
-	.catch(next)
+	.then(null, next)
 });
 
 module.exports = router;
