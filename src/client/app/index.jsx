@@ -3,6 +3,8 @@ import {render} from 'react-dom';
 
 import WorkoutList from './anotherComponent.jsx';
 
+import WorkoutBox from './WorkoutBox.jsx';
+
 let data =[
         {
             author: 'Katherine',

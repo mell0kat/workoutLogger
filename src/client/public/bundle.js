@@ -61,6 +61,10 @@
 	
 	var _anotherComponent2 = _interopRequireDefault(_anotherComponent);
 	
+	var _WorkoutBox = __webpack_require__(/*! ./WorkoutBox.jsx */ 171);
+	
+	var _WorkoutBox2 = _interopRequireDefault(_WorkoutBox);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21680,6 +21684,138 @@
 	}(_react2.default.Component);
 	
 	exports.default = WorkoutList;
+
+/***/ },
+/* 171 */
+/*!***************************************!*\
+  !*** ./src/client/app/WorkoutBox.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var WorkoutBox = function (_React$Component) {
+		_inherits(WorkoutBox, _React$Component);
+	
+		function WorkoutBox() {
+			_classCallCheck(this, WorkoutBox);
+	
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(WorkoutBox).apply(this, arguments));
+		}
+	
+		_createClass(WorkoutBox, [{
+			key: 'render',
+			value: function render() {
+				console.log('this.props in WorkoutBox', this.props);
+				var workoutSections = this.props.sections.map(function (section) {
+					return _react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'span',
+							null,
+							section.num,
+							' '
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							section.units,
+							' '
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							section.exercise,
+							' '
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							section.modification
+						)
+					);
+				});
+	
+				var performances = this.props.performance.map(function (performance) {
+					return _react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'h2',
+							null,
+							'Performance:'
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							performance.rounds,
+							' '
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							performance.extraReps,
+							' '
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							performance.time,
+							' '
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							performance.units,
+							' '
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							performance.weights
+						)
+					);
+				});
+				return _react2.default.createElement(
+					'div',
+					{ className: 'workoutBox' },
+					_react2.default.createElement(
+						'h2',
+						null,
+						'Instructions: ',
+						this.props.instructions
+					),
+					workoutSections,
+					performances
+				);
+			}
+		}]);
+	
+		return WorkoutBox;
+	}(_react2.default.Component);
+	
+	;
+	
+	exports.default = WorkoutBox;
 
 /***/ }
 /******/ ]);
