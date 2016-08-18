@@ -21975,6 +21975,16 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	/**
+	
+		What is a controlled component?
+			React is setting the value of a component
+	
+		Uncontrolled:
+			React is not setting the value..it is only responding to a change
+	
+	**/
+	
 	var PerformanceForm = function (_React$Component) {
 		_inherits(PerformanceForm, _React$Component);
 	
@@ -21984,7 +21994,11 @@
 			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PerformanceForm).call(this, props));
 	
 			_this.state = {
-				units: ['reps', 'seconds', 'minutes', 'rounds']
+				rounds: 0,
+				extraReps: 0,
+				time: 0,
+				units: ['reps', 'seconds', 'minutes', 'rounds'],
+				weights: []
 			};
 			return _this;
 		}
@@ -21992,11 +22006,12 @@
 		_createClass(PerformanceForm, [{
 			key: 'handleChange',
 			value: function handleChange(factor, e) {
-				console.log(e);
+				console.log(factor, e);
 				var newData = {};
 				newData[factor] = e.target.value;
-	
+				console.log('newData:', newData);
 				this.setState(newData);
+				console.log('this.state:', this.state);
 			}
 		}, {
 			key: 'render',
@@ -22027,16 +22042,16 @@
 							'Rounds:'
 						),
 						_react2.default.createElement('input', { type: 'number',
-							value: this.state.number,
-							onChange: this.handleChange.bind(this, 'number') }),
+							value: this.state.rounds,
+							onChange: this.handleChange.bind(this, 'rounds') }),
 						_react2.default.createElement(
 							'label',
 							null,
 							'Extra Reps:'
 						),
 						_react2.default.createElement('input', { type: 'number',
-							value: this.state.reps,
-							onChange: this.handleChange.bind(this, 'reps') }),
+							value: this.state.extraReps,
+							onChange: this.handleChange.bind(this, 'extraReps') }),
 						_react2.default.createElement(
 							'label',
 							null,
@@ -22053,7 +22068,7 @@
 						_react2.default.createElement(
 							'select',
 							{
-								onChange: this.handleChange.bind(this, 'units'), value: '' },
+								onChange: this.handleChange.bind(this, 'units'), value: this.state.units },
 							options
 						),
 						_react2.default.createElement('input', { type: 'submit', value: 'Post' })
