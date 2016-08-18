@@ -3,11 +3,11 @@ import React from 'react';
 class WorkoutForm extends React.Component {
 	getInitialState () {
 		return {author: '', text:'', date:'',  boxes: []}
-	},
+	}
 	handleChange (e, factor) {
 		this.setState({factor: e.target.value});
 		console.log('State after updating workout', this.state)
-	},
+	}
 	handleSubmit (e) {
 		e.preventDefault();
 		let author = this.state.author.trim();
@@ -18,7 +18,7 @@ class WorkoutForm extends React.Component {
 		//empty things out again
 		this.setState({author: '', text:'', date:'',  boxes: []})
 
-	},
+	}
 	render () {
 		return (
 			<div><h3>WorkoutForm!!</h3>

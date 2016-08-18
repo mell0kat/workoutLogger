@@ -1,9 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import WorkoutList from './anotherComponent.jsx';
-
-import WorkoutBox from './WorkoutBox.jsx';
+import WorkoutListAndForm from './WorkoutListAndForm.jsx';
 
 let data =[
         {
@@ -124,7 +122,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<p>Hello There!</p>
-				<WorkoutList data={data}/>
+                <WorkoutListAndForm getExercisesUrl="/api/exercises" url="/api/workouts"/>
 			</div>
 			)
 	}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 class ExerciseForm extends React.Component {
-
+ 	//super within constructor calls super on parent element
 	getInitialState () {
 		return {exerciseName: ''};
 	},

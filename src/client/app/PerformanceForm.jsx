@@ -2,17 +2,23 @@ import React from 'react';
 
 class PerformanceForm extends React.Component {
 
-	getInitialState () {
-		return { units:['reps', 'seconds', 'minutes', 'rounds'] };
-	},
-	handleChange (e, factor) {
-		this.setState({factor: e.target.value});
+	constructor(props) {
+		super(props)
+		this.state = {
+			units:['reps', 'seconds', 'minutes', 'rounds']
+		}
+	}
+	handleChange (factor, e) {
+		console.log(e)
+		let newData = {};
+		newData[factor] = e.target.value;
 
-	},
+		this.setState(newData);
+	}
 	render () {
-		let options=this.state.units.map(unit => {
+		let options = this.state.units.map( (unit, idx) => {
 			return (
-				<option value={unit}>{unit}</option>
+				<option value={unit} key={idx}>{unit}</option>
 			);
 		});
 		// Inputs that have a value and affect the state are called controlled components
@@ -39,8 +45,8 @@ class PerformanceForm extends React.Component {
 				<label>Units:</label>
 
 
-				<select value={this.state.units}
-					onChange={this.handleChange.bind(this, 'units')}>{options}</select>
+				<select
+					onChange={this.handleChange.bind(this, 'units')} value=''>{options}</select>
 				<input type="submit" value="Post"></input>
 			</form>
 			</div>

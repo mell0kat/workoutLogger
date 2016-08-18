@@ -1,6 +1,11 @@
 import React from 'react';
 
 class SectionForm extends React.Component {
+
+	constructor(props) {
+		super(props)
+		this.state = { showAddWorkoutForm: false, exercises:[] };
+	}
 	loadExercisesFromServer () {
 		console.log('about to load exercises with this url:', this.props.getExercisesUrl);
 
@@ -19,17 +24,14 @@ class SectionForm extends React.Component {
 				console.error(this.props.url, status, err.toString())
 			}.bind(this)
 		})
-	},
+	}
 		componentDidMount (){
 		console.log('workout form did mount')
 		this.loadExercisesFromServer()
-	},
-	getInitialState () {
-		return { showAddWorkoutForm: false, exercises:[] };
-	},
+	}
 	onClick (){
 		this.setState({ showAddWorkoutForm: true})
-	},
+	}
 	render () {
 		let options=this.state.exercises.map(exercise => {
 			return (

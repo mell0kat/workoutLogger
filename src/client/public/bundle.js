@@ -57,13 +57,9 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 33);
 	
-	var _anotherComponent = __webpack_require__(/*! ./anotherComponent.jsx */ 170);
+	var _WorkoutListAndForm = __webpack_require__(/*! ./WorkoutListAndForm.jsx */ 170);
 	
-	var _anotherComponent2 = _interopRequireDefault(_anotherComponent);
-	
-	var _WorkoutBox = __webpack_require__(/*! ./WorkoutBox.jsx */ 171);
-	
-	var _WorkoutBox2 = _interopRequireDefault(_WorkoutBox);
+	var _WorkoutListAndForm2 = _interopRequireDefault(_WorkoutListAndForm);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -190,7 +186,7 @@
 	                    null,
 	                    'Hello There!'
 	                ),
-	                _react2.default.createElement(_anotherComponent2.default, { data: data })
+	                _react2.default.createElement(_WorkoutListAndForm2.default, { getExercisesUrl: '/api/exercises', url: '/api/workouts' })
 	            );
 	        }
 	    }]);
@@ -21624,9 +21620,142 @@
 
 /***/ },
 /* 170 */
-/*!*********************************************!*\
-  !*** ./src/client/app/anotherComponent.jsx ***!
-  \*********************************************/
+/*!***********************************************!*\
+  !*** ./src/client/app/WorkoutListAndForm.jsx ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _WorkoutList = __webpack_require__(/*! ./WorkoutList.jsx */ 171);
+	
+	var _WorkoutList2 = _interopRequireDefault(_WorkoutList);
+	
+	var _SectionForm = __webpack_require__(/*! ./SectionForm.jsx */ 172);
+	
+	var _SectionForm2 = _interopRequireDefault(_SectionForm);
+	
+	var _PerformanceForm = __webpack_require__(/*! ./PerformanceForm.jsx */ 173);
+	
+	var _PerformanceForm2 = _interopRequireDefault(_PerformanceForm);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	// import WorkoutForm from './WorkoutForm.jsx';
+	
+	var WorkoutListAndForm = function (_React$Component) {
+		_inherits(WorkoutListAndForm, _React$Component);
+	
+		function WorkoutListAndForm(props) {
+			_classCallCheck(this, WorkoutListAndForm);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WorkoutListAndForm).call(this, props));
+	
+			_this.state = {
+				data: []
+			};
+			return _this;
+		}
+	
+		_createClass(WorkoutListAndForm, [{
+			key: 'loadWorkoutsFromServer',
+			value: function loadWorkoutsFromServer() {
+	
+				$.ajax({
+					url: this.props.url,
+					dataType: 'json',
+					cache: false,
+					success: function (data) {
+						console.log('got workouts from server:', data);
+						this.setState({ data: data });
+					}.bind(this),
+					error: function (xhr, status, err) {
+	
+						console.error(this.props.url, status, err.toString());
+					}.bind(this)
+				});
+			}
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.loadWorkoutsFromServer();
+				// See below for possible way to poll for changes
+				// setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+			}
+		}, {
+			key: 'handleExerciseSubmit',
+			value: function handleExerciseSubmit(exercise) {
+				console.log('submitting new exercise..not sure what else to do yet');
+				$.ajax({
+					url: 'api/exercises',
+					method: 'POST',
+					data: exercise,
+					dataType: 'json',
+					success: function (data) {
+						console.log('in successful exercise post?', data);
+						this.setState({ exercises: data });
+					}.bind(this),
+					error: function (xhr, status, err) {
+						console.log('cannot submit new exercise');
+						console.error(this.props.url, status, err.toString());
+					}.bind(this)
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return(
+					//Same as React.createElement('div')
+					_react2.default.createElement(
+						'div',
+						{ className: 'workoutListAndForm' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'Workouts'
+						),
+						_react2.default.createElement(_WorkoutList2.default, { data: this.state.data }),
+						_react2.default.createElement(_SectionForm2.default, { className: 'sectionForm', getExercisesUrl: this.props.getExercisesUrl }),
+						_react2.default.createElement(
+							'button',
+							null,
+							'Add another section'
+						),
+						_react2.default.createElement(_SectionForm2.default, { className: 'exerciseForm', onExerciseSubmit: this.handleExerciseSubmit }),
+						_react2.default.createElement(_PerformanceForm2.default, null)
+					)
+				);
+			}
+		}]);
+	
+		return WorkoutListAndForm;
+	}(_react2.default.Component);
+	
+	;
+	
+	exports.default = WorkoutListAndForm;
+
+/***/ },
+/* 171 */
+/*!****************************************!*\
+  !*** ./src/client/app/WorkoutList.jsx ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21660,11 +21789,8 @@
 	
 		_createClass(WorkoutList, [{
 			key: 'render',
-	
-			//has this.props.data
-	
 			value: function render() {
-				console.log('this.props in WorkoutList', this.props);
+				console.log('this.props.data in WorkoutList', this.props.data);
 				var workoutNodes = this.props.data.map(function (workout) {
 					return _react2.default.createElement(
 						Workout,
@@ -21683,13 +21809,15 @@
 		return WorkoutList;
 	}(_react2.default.Component);
 	
+	;
+	
 	exports.default = WorkoutList;
 
 /***/ },
-/* 171 */
-/*!***************************************!*\
-  !*** ./src/client/app/WorkoutBox.jsx ***!
-  \***************************************/
+/* 172 */
+/*!****************************************!*\
+  !*** ./src/client/app/SectionForm.jsx ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21712,110 +21840,234 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var WorkoutBox = function (_React$Component) {
-		_inherits(WorkoutBox, _React$Component);
+	var SectionForm = function (_React$Component) {
+		_inherits(SectionForm, _React$Component);
 	
-		function WorkoutBox() {
-			_classCallCheck(this, WorkoutBox);
+		function SectionForm(props) {
+			_classCallCheck(this, SectionForm);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(WorkoutBox).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SectionForm).call(this, props));
+	
+			_this.state = { showAddWorkoutForm: false, exercises: [] };
+			return _this;
 		}
 	
-		_createClass(WorkoutBox, [{
+		_createClass(SectionForm, [{
+			key: 'loadExercisesFromServer',
+			value: function loadExercisesFromServer() {
+				console.log('about to load exercises with this url:', this.props.getExercisesUrl);
+	
+				$.ajax({
+					url: this.props.getExercisesUrl,
+					dataType: 'json',
+					cache: false,
+					method: 'GET',
+					success: function (data) {
+						console.log('in success?', data);
+						this.setState({ exercises: data });
+						console.log('state after getting exercise:', this.state);
+					}.bind(this),
+					error: function (xhr, status, err) {
+						console.log('could not find exercises!');
+						console.error(this.props.url, status, err.toString());
+					}.bind(this)
+				});
+			}
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				console.log('workout form did mount');
+				this.loadExercisesFromServer();
+			}
+		}, {
+			key: 'onClick',
+			value: function onClick() {
+				this.setState({ showAddWorkoutForm: true });
+			}
+		}, {
 			key: 'render',
 			value: function render() {
-				console.log('this.props in WorkoutBox', this.props);
-				var workoutSections = this.props.sections.map(function (section) {
+				var options = this.state.exercises.map(function (exercise) {
 					return _react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement(
-							'span',
-							null,
-							section.num,
-							' '
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							section.units,
-							' '
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							section.exercise,
-							' '
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							section.modification
-						)
-					);
-				});
-	
-				var performances = this.props.performance.map(function (performance) {
-					return _react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement(
-							'h2',
-							null,
-							'Performance:'
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							performance.rounds,
-							' '
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							performance.extraReps,
-							' '
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							performance.time,
-							' '
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							performance.units,
-							' '
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							performance.weights
-						)
+						'option',
+						{ value: exercise.name },
+						exercise.name
 					);
 				});
 				return _react2.default.createElement(
 					'div',
-					{ className: 'workoutBox' },
-					_react2.default.createElement(
-						'h2',
-						null,
-						'Instructions: ',
-						this.props.instructions
-					),
-					workoutSections,
-					performances
+					null,
+					_react2.default.createElement('button', { onClick: this.onClick }),
+					this.state.showAddWorkoutForm ? _react2.default.createElement(
+						'form',
+						{ className: 'sectionForm' },
+						'Num:',
+						_react2.default.createElement('input', { type: 'number', placeholder: 'Num' }),
+						'Units:',
+						_react2.default.createElement(
+							'select',
+							null,
+							_react2.default.createElement(
+								'option',
+								{ value: 'reps' },
+								'reps'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 'lbs' },
+								'lbs'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 'seconds' },
+								'seconds'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 'minutes' },
+								'minutes'
+							)
+						),
+						'Exercise:',
+						_react2.default.createElement(
+							'select',
+							null,
+							options
+						),
+						'Modification: ',
+						_react2.default.createElement('input', { type: 'text' })
+					) : null
 				);
 			}
 		}]);
 	
-		return WorkoutBox;
+		return SectionForm;
 	}(_react2.default.Component);
 	
 	;
 	
-	exports.default = WorkoutBox;
+	exports.default = SectionForm;
+
+/***/ },
+/* 173 */
+/*!********************************************!*\
+  !*** ./src/client/app/PerformanceForm.jsx ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PerformanceForm = function (_React$Component) {
+		_inherits(PerformanceForm, _React$Component);
+	
+		function PerformanceForm(props) {
+			_classCallCheck(this, PerformanceForm);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PerformanceForm).call(this, props));
+	
+			_this.state = {
+				units: ['reps', 'seconds', 'minutes', 'rounds']
+			};
+			return _this;
+		}
+	
+		_createClass(PerformanceForm, [{
+			key: 'handleChange',
+			value: function handleChange(factor, e) {
+				console.log(e);
+				var newData = {};
+				newData[factor] = e.target.value;
+	
+				this.setState(newData);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var options = this.state.units.map(function (unit, idx) {
+					return _react2.default.createElement(
+						'option',
+						{ value: unit, key: idx },
+						unit
+					);
+				});
+				// Inputs that have a value and affect the state are called controlled components
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Performance Form'
+					),
+					_react2.default.createElement(
+						'form',
+						{ className: 'performanceForm', onSubmit: this.handleSubmit },
+						_react2.default.createElement(
+							'label',
+							null,
+							'Rounds:'
+						),
+						_react2.default.createElement('input', { type: 'number',
+							value: this.state.number,
+							onChange: this.handleChange.bind(this, 'number') }),
+						_react2.default.createElement(
+							'label',
+							null,
+							'Extra Reps:'
+						),
+						_react2.default.createElement('input', { type: 'number',
+							value: this.state.reps,
+							onChange: this.handleChange.bind(this, 'reps') }),
+						_react2.default.createElement(
+							'label',
+							null,
+							'Time:'
+						),
+						_react2.default.createElement('input', { type: 'number',
+							value: this.state.time,
+							onChange: this.handleChange.bind(this, 'time') }),
+						_react2.default.createElement(
+							'label',
+							null,
+							'Units:'
+						),
+						_react2.default.createElement(
+							'select',
+							{
+								onChange: this.handleChange.bind(this, 'units'), value: '' },
+							options
+						),
+						_react2.default.createElement('input', { type: 'submit', value: 'Post' })
+					)
+				);
+			}
+		}]);
+	
+		return PerformanceForm;
+	}(_react2.default.Component);
+	
+	;
+	
+	exports.default = PerformanceForm;
 
 /***/ }
 /******/ ]);
