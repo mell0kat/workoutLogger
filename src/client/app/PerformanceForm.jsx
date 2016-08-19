@@ -1,22 +1,46 @@
 import React from 'react';
 
+/**
+
+	What is a controlled component?
+		React is setting the value of a component
+
+	Uncontrolled:
+		React is not setting the value..it is only responding to a change
+
+**/
 class PerformanceForm extends React.Component {
 
 	constructor(props) {
 		super(props)
+
 		this.state = {
-			units:['reps', 'seconds', 'minutes', 'rounds']
+			rounds: 0,
+	    extraReps: 0,
+	    time: 0,
+	    units: '',
+	    unitPossibilities: ['reps', 'seconds', 'minutes', 'rounds'],
+	    weights:[]
 		}
 	}
 	handleChange (factor, e) {
-		console.log(e)
+		console.log(factor, e)
 		let newData = {};
 		newData[factor] = e.target.value;
-
+		console.log('newData:', newData)
 		this.setState(newData);
+		console.log('this.state:', this.state)
+	}
+
+	handleSubmit (e) {
+		e.preventDefault();
+		console.log('this si the form:', e)
+		// need to do what?
+		// reset the form to blank?
+		console.log('this.state:', this)
 	}
 	render () {
-		let options = this.state.units.map( (unit, idx) => {
+		let options = this.state.unitPossibilities.map( (unit, idx) => {
 			return (
 				<option value={unit} key={idx}>{unit}</option>
 			);
@@ -26,16 +50,17 @@ class PerformanceForm extends React.Component {
 		return  (
 			<div>
 				<h3>Performance Form</h3>
-				<form className="performanceForm" onSubmit={this.handleSubmit}>
+				<form className="performanceForm"
+					onSubmit={this.handleSubmit.bind(this.state)}>
 				<label>Rounds:</label>
 				<input type="number"
-					value={this.state.number}
-					onChange={this.handleChange.bind(this, 'number')}></input>
+					value={this.state.rounds}
+					onChange={this.handleChange.bind(this, 'rounds')}></input>
 
 				<label>Extra Reps:</label>
 				<input type="number"
-					value={this.state.reps}
-					onChange={this.handleChange.bind(this, 'reps')}></input>
+					value={this.state.extraReps}
+					onChange={this.handleChange.bind(this, 'extraReps')}></input>
 
 				<label>Time:</label>
 				<input type="number"
@@ -43,11 +68,11 @@ class PerformanceForm extends React.Component {
 					onChange={this.handleChange.bind(this, 'time')}></input>
 
 				<label>Units:</label>
-
-
 				<select
-					onChange={this.handleChange.bind(this, 'units')} value=''>{options}</select>
-				<input type="submit" value="Post"></input>
+					onChange={this.handleChange.bind(this, 'units')}
+					value={this.state.units}>{options}</select>
+				<input type="submit"
+					value="Post"></input>
 			</form>
 			</div>
 		);
