@@ -18,7 +18,8 @@ class PerformanceForm extends React.Component {
 			rounds: 0,
 	    extraReps: 0,
 	    time: 0,
-	    units: ['reps', 'seconds', 'minutes', 'rounds'],
+	    units: '',
+	    unitPossibilities: ['reps', 'seconds', 'minutes', 'rounds'],
 	    weights:[]
 		}
 	}
@@ -30,8 +31,16 @@ class PerformanceForm extends React.Component {
 		this.setState(newData);
 		console.log('this.state:', this.state)
 	}
+
+	handleSubmit (e) {
+		e.preventDefault();
+		console.log('this si the form:', e)
+		// need to do what?
+		// reset the form to blank?
+		console.log('this.state:', this)
+	}
 	render () {
-		let options = this.state.units.map( (unit, idx) => {
+		let options = this.state.unitPossibilities.map( (unit, idx) => {
 			return (
 				<option value={unit} key={idx}>{unit}</option>
 			);
@@ -41,7 +50,8 @@ class PerformanceForm extends React.Component {
 		return  (
 			<div>
 				<h3>Performance Form</h3>
-				<form className="performanceForm" onSubmit={this.handleSubmit}>
+				<form className="performanceForm"
+					onSubmit={this.handleSubmit.bind(this.state)}>
 				<label>Rounds:</label>
 				<input type="number"
 					value={this.state.rounds}
@@ -59,8 +69,10 @@ class PerformanceForm extends React.Component {
 
 				<label>Units:</label>
 				<select
-					onChange={this.handleChange.bind(this, 'units')} value={this.state.units}>{options}</select>
-				<input type="submit" value="Post"></input>
+					onChange={this.handleChange.bind(this, 'units')}
+					value={this.state.units}>{options}</select>
+				<input type="submit"
+					value="Post"></input>
 			</form>
 			</div>
 		);

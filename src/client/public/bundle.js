@@ -21997,7 +21997,8 @@
 				rounds: 0,
 				extraReps: 0,
 				time: 0,
-				units: ['reps', 'seconds', 'minutes', 'rounds'],
+				units: '',
+				unitPossibilities: ['reps', 'seconds', 'minutes', 'rounds'],
 				weights: []
 			};
 			return _this;
@@ -22014,9 +22015,18 @@
 				console.log('this.state:', this.state);
 			}
 		}, {
+			key: 'handleSubmit',
+			value: function handleSubmit(e) {
+				e.preventDefault();
+				console.log('this si the form:', e);
+				// need to do what?
+				// reset the form to blank?
+				console.log('this.state:', this);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
-				var options = this.state.units.map(function (unit, idx) {
+				var options = this.state.unitPossibilities.map(function (unit, idx) {
 					return _react2.default.createElement(
 						'option',
 						{ value: unit, key: idx },
@@ -22035,7 +22045,8 @@
 					),
 					_react2.default.createElement(
 						'form',
-						{ className: 'performanceForm', onSubmit: this.handleSubmit },
+						{ className: 'performanceForm',
+							onSubmit: this.handleSubmit.bind(this.state) },
 						_react2.default.createElement(
 							'label',
 							null,
@@ -22068,10 +22079,12 @@
 						_react2.default.createElement(
 							'select',
 							{
-								onChange: this.handleChange.bind(this, 'units'), value: this.state.units },
+								onChange: this.handleChange.bind(this, 'units'),
+								value: this.state.units },
 							options
 						),
-						_react2.default.createElement('input', { type: 'submit', value: 'Post' })
+						_react2.default.createElement('input', { type: 'submit',
+							value: 'Post' })
 					)
 				);
 			}
